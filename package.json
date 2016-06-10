@@ -1,0 +1,9 @@
+{
+    "name": "Websockey",
+    "version": "0.0.1",
+    "dependencies": {
+        "nodejs-websocket": "1.6.0",
+        "immutable": "3.8.1",
+        "express": "4.13.4"
+    }
+}
