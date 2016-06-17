@@ -1,26 +1,26 @@
 (function () {
 
-  var RecordState = function() {
+  var OnOffState = function(startValue) {
     var self = this;
 
-    var isRecording = false;
-    self.setRecording = function(val) {
-      console.log("now we are " + val);
-      if (!isRecording === val) {
-        isRecording = val;
+    var isOn = startValue;
+    self.setState = function(val) {
+      if (!isOn === val) {
+        isOn = val;
         self.trigger('change', val);
       }
-      isRecording = val;
+      isOn = val;
     };
 
-    self.getRecording = function() {
-      return isRecording;
+    self.getState = function() {
+      return isOn;
     };
   };
 
-  MicroEvent.mixin(RecordState);
+  MicroEvent.mixin(OnOffState);
 
-  var recordState = new RecordState();
+  var recordState = new OnOffState(false);
+  var proxyState = new OnOffState(false);
 
   var ws = new WebSocket("ws://localhost:8081");
   ws.onopen = function(evt) {
@@ -29,15 +29,37 @@
       var data = JSON.parse(message.data);
       switch(data.topic) {
       case "recorder-status":
-        console.log("triggering");
-        recordState.setRecording(data.data);
+        recordState.setState(data.data);
+        break;
+      case "proxy-status":
+        proxyState.setState(data.data);
         break;
       }
     };
 
+    var ProxyState = React.createClass({
+      getInitialState: function() {
+        return { connected: proxyState.getState() };
+      },
+
+      componentDidMount: function() {
+        var component = this;
+        proxyState.bind('change', function(connected) {
+          component.setState({connected: connected});
+        });
+        ws.send("status");
+      },
+
+      render: function() {
+        return <div className="proxy-status">
+          The proxy is {this.state.connected ? "CONNECTED" : "DISCONNECTED"}.
+        </div>;
+      }
+    });
+
     var RecorderControls = React.createClass({
       getInitialState: function() {
-        return { recording: recordState.getRecording() };
+        return { recording: recordState.getState() };
       },
 
       componentDidMount: function() {
@@ -68,7 +90,10 @@
     });
 
     ReactDOM.render(
-        <RecorderControls/>,
+        <div>
+        <ProxyState/>
+        <RecorderControls/>
+        </div>,
       document.getElementById('golem')
     );
   };
