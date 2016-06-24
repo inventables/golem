@@ -79,6 +79,7 @@ proxy.start({
     next(text);
   },
   onStatus: function(status) {
+    console.log("status - " + status);
     proxyStatusCallbacks.forEach(function(cbs) {
       cbs.forEach(function(cb) {
         cb(status);
