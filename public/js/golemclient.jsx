@@ -22,6 +22,43 @@
   var recordState = new OnOffState(false);
   var proxyState = new OnOffState(false);
 
+  var Messages = function() {
+    var initialized = false;
+    var self = this;
+
+    var messagesList = [];
+
+    self.init = function(messages) {
+      if (!initialized) {
+        messagesList = messages;
+        initialized = true;
+        self.trigger('change', messagesList);
+        console.log(messagesList)
+      }
+    };
+
+    self.get = function() {
+      return messagesList;
+    };
+
+    self.add = function(message) {
+      if (initialized) {
+        messagesList.push(message);
+        self.trigger('change', messagesList);
+      }
+    };
+
+    self.clear = function() {
+      if (intialized) {
+        messagesList = [];
+        self.trigger('change', messagesList);
+      }
+    };
+  };
+
+  MicroEvent.mixin(Messages);
+  var recordedMessages = new Messages();
+
   var ws = new WebSocket("ws://localhost:8081");
   ws.onopen = function(evt) {
 
@@ -34,8 +71,42 @@
       case "proxy-status":
         proxyState.setState(data.data);
         break;
+      case "messages":
+        recordedMessages.init(data.data);
+        break;
+      case "message":
+        recordedMessages.add(data.data);
+        break;
       }
     };
+
+    var MessagesList = React.createClass({
+      getInitialState: function() {
+        return { messages: recordedMessages.get() };
+      },
+
+      componentDidMount: function() {
+        var component = this;
+        recordedMessages.bind('change', function(messages) {
+          component.setState({ messages: messages });
+        });
+        ws.send("messages");
+      },
+
+      render: function() {
+
+        var messages = this.state.messages;
+
+        var message = function(msg) {
+          var msgClassName = msg.source + "-message"
+          var direction = msg.source === "INBOUND" ? " ---> " : " <--- ";
+          return <li key={msg.id} className={msgClassName}><span>{direction}</span><span>{msg.message}</span></li>;
+        };
+
+        return <ul className="recorded-messages">{messages.map(message)}</ul>;
+      }
+
+    });
 
     var ProxyState = React.createClass({
       getInitialState: function() {
@@ -93,6 +164,7 @@
         <div>
         <ProxyState/>
         <RecorderControls/>
+        <MessagesList/>
         </div>,
       document.getElementById('golem')
     );

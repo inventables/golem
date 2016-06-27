@@ -36,20 +36,23 @@ controlServer.start({
     messageCallbacks = messageCallbacks.update(conn,
                                                Immutable.List(),
                                                function(l) { return l.push(cb);});
-  },
+}
+  ,
   closed: function(conn) {
     proxyStatusCallbacks = proxyStatusCallbacks.delete(conn);
     recorderStatusCallbacks = recorderStatusCallbacks.delete(conn);
     messageCallbacks = messageCallbacks.delete(conn);
   },
 
-  getStatus: function() {
+  getStatus: function(conn) {
     proxy.getStatus();
     recorder.getStatus();
   },
+  getMessages: function(onMessages) {
+    onMessages(recorder.getMessages());
+  },
 
   startRecording: recorder.start,
-
   stopRecording: recorder.stop
 });
 
@@ -79,7 +82,6 @@ proxy.start({
     next(text);
   },
   onStatus: function(status) {
-    console.log("status - " + status);
     proxyStatusCallbacks.forEach(function(cbs) {
       cbs.forEach(function(cb) {
         cb(status);
