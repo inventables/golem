@@ -21,6 +21,7 @@
 
   var recordState = new OnOffState(false);
   var proxyState = new OnOffState(false);
+  var playbackState = new OnOffState(false);
 
   var Messages = function() {
     var initialized = false;
@@ -68,6 +69,9 @@
       case "recorder-status":
         recordState.setState(data.data);
         break;
+      case "replayer-status":
+        playbackState.setState(data.data);
+        break;
       case "proxy-status":
         proxyState.setState(data.data);
         break;
@@ -79,6 +83,9 @@
           break;
       case "recording-saved":
         console.log("saved recording");
+        break;
+      case "recording-failed-save":
+        console.log("failed to save recording");
         break;
       }
     };
@@ -133,7 +140,8 @@
 
     var RecorderControls = React.createClass({
       getInitialState: function() {
-        return { recording: recordState.getState() };
+        return { recording: recordState.getState(),
+                 playingBack: playbackState.getState()};
       },
 
       componentDidMount: function() {
@@ -141,19 +149,30 @@
         recordState.bind('change', function(recording) {
           component.setState({recording: recording});
         });
+        playbackState.bind('change', function(playingBack) {
+          component.setState({playingBack: playingBack});
+        });
         ws.send("status");
       },
 
       startRecording: function() {
-        ws.send("start");
+        ws.send("start-recording");
       },
 
       stopRecording: function() {
-        ws.send("stop");
+        ws.send("stop-recording");
       },
 
       saveRecording: function() {
           ws.send("save");
+      },
+
+      startPlayback: function() {
+        ws.send("start-playback");
+      },
+
+      stopPlayback: function() {
+        ws.send("stop-playback");
       },
 
       render: function() {
@@ -163,11 +182,18 @@
 
         var saveRecordingButton = <button type="button" onClick={this.saveRecording}>Save Recording</button>;
 
+        var startPlaybackButton = <button type="button" onClick={this.startPlayback}>Start Playback</button>;
+
+        var stopPlaybackButton = <button type="button" onClick={this.stopPlayback}>Stop Playback</button>;
+
         return <div className="recorder-controls">
               <div>
               {this.state.recording ? stopRecordingButton : startRecordingButton}
               {saveRecordingButton}
-             </div>
+        </div>
+        <div>
+          {this.state.playingBack ? stopPlaybackButton : startPlaybackButton}
+        </div>
         </div>;
       }
     });

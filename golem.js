@@ -1,4 +1,5 @@
 var Recorder = require('./lib/recorder');
+var Replayer = require('./lib/replayer');
 var Proxy = require('./lib/proxy');
 var ControlServer = require('./lib/controlserver');
 var express = require('express');
@@ -11,12 +12,15 @@ var httpPort = 8080;
 // TODO - get this value into the client, where it's currently hardcoded.
 var controlPort = 8081;
 
-var recorder = Recorder();
+var recordingName = "savedrecording.txt";
+var recorder = Recorder(recordingName);
+var replayer = Replayer(recordingName);
 
 var controlServer = ControlServer(httpPort, controlPort, __dirname + '/public');
 
 var proxyStatusCallbacks = Immutable.Map();
 var recorderStatusCallbacks = Immutable.Map();
+var replayerStatusCallbacks = Immutable.Map();
 var messageCallbacks = Immutable.Map();
 
 var proxy = Proxy(sourcePort, targetPort);
@@ -32,6 +36,11 @@ controlServer.start({
                                                              Immutable.List(),
                                                              function(l) { return l.push(cb);});
   },
+  onReplayerStatus: function(cb, conn) {
+    replayerStatusCallbacks = replayerStatusCallbacks.update(conn,
+                                                             Immutable.List(),
+                                                             function(l) { return l.push(cb);});
+  },
   onMessage: function(cb, conn) {
     messageCallbacks = messageCallbacks.update(conn,
                                                Immutable.List(),
@@ -41,12 +50,14 @@ controlServer.start({
   closed: function(conn) {
     proxyStatusCallbacks = proxyStatusCallbacks.delete(conn);
     recorderStatusCallbacks = recorderStatusCallbacks.delete(conn);
+    replayerStatusCallbacks = replayerStatusCallbacks.delete(conn);
     messageCallbacks = messageCallbacks.delete(conn);
   },
 
   getStatus: function(conn) {
     proxy.getStatus();
     recorder.getStatus();
+    replayer.getStatus();
   },
   getMessages: function(onMessages) {
     onMessages(recorder.getMessages());
@@ -54,7 +65,15 @@ controlServer.start({
 
   startRecording: recorder.start,
   stopRecording: recorder.stop,
-  saveRecording: recorder.save
+  saveRecording: recorder.save,
+  startPlayback: function() {
+    replayFunction = proxy.startReplay();
+    replayer.enable(replayFunction);
+  },
+  stopPlayback: function() {
+    replayer.disable();
+    proxy.stopReplay();
+  }
 });
 
 recorder.onStatus(function(status) {
@@ -73,9 +92,19 @@ recorder.onMessage(function(message) {
   });
 });
 
+replayer.onStatus(function(status) {
+  replayerStatusCallbacks.forEach(function(cbs) {
+    cbs.forEach(function(cb) {
+      cb(status);
+    });
+  });
+});
+
+
 proxy.start({
   onSourceMessage: function (text, next) {
     recorder.receiveMessage(Recorder.OUTBOUND, text);
+    replayer.receiveMessage(text);
     next(text);
   },
   onTargetMessage: function (text, next) {
@@ -88,5 +117,8 @@ proxy.start({
         cb(status);
       });
     });
+    if (status) {
+      replayer.start(status);
+    }
   }
 });
