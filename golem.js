@@ -53,7 +53,8 @@ controlServer.start({
   },
 
   startRecording: recorder.start,
-  stopRecording: recorder.stop
+  stopRecording: recorder.stop,
+  saveRecording: recorder.save
 });
 
 recorder.onStatus(function(status) {

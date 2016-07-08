@@ -76,6 +76,9 @@
         break;
       case "message":
         recordedMessages.add(data.data);
+          break;
+      case "recording-saved":
+        console.log("saved recording");
         break;
       }
     };
@@ -149,13 +152,22 @@
         ws.send("stop");
       },
 
+      saveRecording: function() {
+          ws.send("save");
+      },
+
       render: function() {
         var startRecordingButton = <button type="button" onClick={this.startRecording}>Start Recording</button>;
 
         var stopRecordingButton = <button type="button" onClick={this.stopRecording}>Stop Recording</button>;
 
+        var saveRecordingButton = <button type="button" onClick={this.saveRecording}>Save Recording</button>;
+
         return <div className="recorder-controls">
-          {this.state.recording ? stopRecordingButton : startRecordingButton}
+              <div>
+              {this.state.recording ? stopRecordingButton : startRecordingButton}
+              {saveRecordingButton}
+             </div>
         </div>;
       }
     });
