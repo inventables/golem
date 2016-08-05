@@ -118,7 +118,9 @@ proxy.start({
       });
     });
     if (status) {
-      replayer.start(status);
+      replayer.start();
+    } else {
+      replayer.reset();
     }
   }
 });
