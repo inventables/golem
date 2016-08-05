@@ -4,10 +4,21 @@ var Proxy = require('./lib/proxy');
 var ControlServer = require('./lib/controlserver');
 var express = require('express');
 var Immutable = require('Immutable');
+var CommandLineArgs = require('command-line-args');
 
-var sourcePort = 1339;
-var targetPort = 1340;
-var httpPort = 8080;
+const optionDefinitions = [
+  { name: 'sourcePort', type: Number, defaultValue: 1339 },
+  { name: 'targetPort', type: Number, defaultValue: 1340 },
+  { name: 'httpPort', type: Number, defaultValue: 8080 },
+  { name: 'isReplay', type: Boolean, defaultvalue: false }
+];
+
+const options = CommandLineArgs(optionDefinitions);
+
+var sourcePort = options.sourcePort;
+var targetPort = options.targetPort;
+var httpPort = options.httpPort;
+var startPlayback = options.isReplay;
 
 // TODO - get this value into the client, where it's currently hardcoded.
 var controlPort = 8081;
@@ -100,6 +111,9 @@ replayer.onStatus(function(status) {
   });
 });
 
+if (startPlayback) {
+  controlServer.startPlayback();
+}
 
 proxy.start({
   onSourceMessage: function (text, next) {

@@ -2,9 +2,10 @@
     "name": "Golem",
     "version": "0.0.1",
     "dependencies": {
-        "immutable": "3.8.1",
-        "express": "4.13.4",
-        "engine.io": "1.6.9",
-        "engine.io-client": "1.6.9"
+      "immutable": "3.8.1",
+      "express": "4.13.4",
+      "engine.io": "1.6.9",
+      "engine.io-client": "1.6.9",
+      "command-line-args": "3.0.1"
     }
 }
