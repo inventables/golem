@@ -1,3 +1,4 @@
+var Recording = require('./lib/recording');
 var Recorder = require('./lib/recorder');
 var Replayer = require('./lib/replayer');
 var Proxy = require('./lib/proxy');
@@ -24,8 +25,9 @@ var startPlayback = options.isReplay;
 var controlPort = 8081;
 
 var recordingName = "savedrecording.txt";
-var recorder = Recorder(recordingName);
-var replayer = Replayer(recordingName);
+var recording = new Recording(recordingName);
+var recorder = Recorder(recording);
+var replayer = Replayer(recording);
 
 var controlServer = ControlServer(httpPort, controlPort, __dirname + '/public');
 
