@@ -24,7 +24,7 @@ var startPlayback = options.isReplay;
 // TODO - get this value into the client, where it's currently hardcoded.
 var controlPort = 8081;
 
-var recordingName = "savedrecording.txt";
+var recordingName = "savedrecording.js";
 var recording = new Recording(recordingName);
 var recorder = Recorder(recording);
 var replayer = Replayer(recording);
