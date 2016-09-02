@@ -1,0 +1,10 @@
+{"id":0,"source":"INBOUND","message":"0","recorded":true}
+{"id":1,"source":"OUTBOUND","message":"2[\"message\",\"Bob\"]","recorded":true}
+{"id":2,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"color\\\",\\\"data\\\":\\\"magenta\\\"}\"]","recorded":true}
+{"id":3,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472834316527,\\\"text\\\":\\\"Hello, Bob\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
+{"id":4,"source":"OUTBOUND","message":"2[\"message\",\"Hi there\"]","recorded":true}
+{"id":5,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472834318896,\\\"text\\\":\\\"Hi there\\\",\\\"author\\\":\\\"Bob\\\",\\\"color\\\":\\\"magenta\\\"}}\"]","recorded":true}
+{"id":6,"source":"OUTBOUND","message":"2[\"message\",\"/time\"]","recorded":true}
+{"id":7,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472834320618,\\\"text\\\":\\\"2016-09-02T16:38:40.618Z\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
+{"id":8,"source":"OUTBOUND","message":"2[\"message\",\"thanks\"]","recorded":true}
+{"id":9,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472834322451,\\\"text\\\":\\\"thanks\\\",\\\"author\\\":\\\"Bob\\\",\\\"color\\\":\\\"magenta\\\"}}\"]","recorded":true}
