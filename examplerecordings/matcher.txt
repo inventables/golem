@@ -1,8 +1,8 @@
-{"id":0,"source":"INBOUND","message":"0","recorded":true}
-{"id":1,"source":"OUTBOUND","message":"2[\"message\",\"Bob\"]","recorded":true}
-{"id":2,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"color\\\",\\\"data\\\":\\\"red\\\"}\"]","recorded":true}
-{"id":3,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244349375,\\\"text\\\":\\\"Hello, Bob\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
-{"id":4,"source":"OUTBOUND","message":"2[\"message\",\"hi there\"]","recorded":true}
-{"id":5,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244350806,\\\"text\\\":\\\"hi there\\\",\\\"author\\\":\\\"Bob\\\",\\\"color\\\":\\\"red\\\"}}\"]","recorded":true}
-{"id":6,"source":"OUTBOUND","message":"2[\"message\",\"/time\"]","recorded":true}
-{"id":7,"source":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244352029,\\\"text\\\":\\\"2016-08-26T20:45:52.029Z\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
+{"id":0,"type":"INBOUND","message":"0","recorded":true}
+{"id":1,"type":"OUTBOUND","message":"2[\"message\",\"Bob\"]","recorded":true}
+{"id":2,"type":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"color\\\",\\\"data\\\":\\\"red\\\"}\"]","recorded":true}
+{"id":3,"type":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244349375,\\\"text\\\":\\\"Hello, Bob\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
+{"id":4,"type":"OUTBOUND","message":"2[\"message\",\"hi there\"]","recorded":true}
+{"id":5,"type":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244350806,\\\"text\\\":\\\"hi there\\\",\\\"author\\\":\\\"Bob\\\",\\\"color\\\":\\\"red\\\"}}\"]","recorded":true}
+{"id":6,"type":"OUTBOUND","message":"2[\"message\",\"/time\"]","recorded":true}
+{"id":7,"type":"INBOUND","message":"2[\"message\",\"{\\\"type\\\":\\\"message\\\",\\\"data\\\":{\\\"time\\\":1472244352029,\\\"text\\\":\\\"2016-08-26T20:45:52.029Z\\\",\\\"author\\\":\\\"system\\\",\\\"color\\\":\\\"black\\\"}}\"]","recorded":true}
