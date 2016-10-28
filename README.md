@@ -10,3 +10,8 @@ The rule store consists of a list of message matchers to functions.
 When a new message arrives from the client, we first check the rule store and apply any matching functions. Next, we advance the event stream to the appropriate place, firing OUTBOUND events as appropriate.
 
 Internally, the recording is transformed into a list of events of certain types. Some events (OUTBOUND) are things the client is expected to send, some (INBOUND) are things the server will send when it reaces that point in the event stream, and some (RULE) have no immediate effects
+
+
+Example of running:
+
+node golem.js --recordingName=examplerecordings/conv-with-rules.js --isReplay=true --sourcePort=2338
