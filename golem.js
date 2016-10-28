@@ -11,7 +11,8 @@ const optionDefinitions = [
   { name: 'sourcePort', type: Number, defaultValue: 1339 },
   { name: 'targetPort', type: Number, defaultValue: 1340 },
   { name: 'httpPort', type: Number, defaultValue: 8080 },
-  { name: 'isReplay', type: Boolean, defaultvalue: false }
+  { name: 'isReplay', type: Boolean, defaultValue: false },
+  { name: 'recordingName', type: String, defaultValue: 'savedrecording.js'}
 ];
 
 const options = CommandLineArgs(optionDefinitions);
@@ -20,11 +21,11 @@ var sourcePort = options.sourcePort;
 var targetPort = options.targetPort;
 var httpPort = options.httpPort;
 var startPlayback = options.isReplay;
+var recordingName = options.recordingName;
 
 // TODO - get this value into the client, where it's currently hardcoded.
 var controlPort = 8081;
 
-var recordingName = "savedrecording.js";
 var recording = new Recording(recordingName);
 var recorder = Recorder(recording);
 var replayer = Replayer(recording);

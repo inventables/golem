@@ -14,7 +14,7 @@ g.expect(g.literal("2[\"message\",\"Bob\"]"), function(out, msg) {
   out(util.format('2["message","%s"]', escape(JSON.stringify(helloMessage))));
 });
 
-g.when(g.literal('2["message", "What\'s up?"]'), function(out, msg) {
+g.when(g.literal('2["message","What\'s up?"]'), function(out, msg) {
   var replyMessage = {"type": "message", "data": {"time": 1472834316527,
                                                   "author": "system",
                                                   "text": "Not too much"}};
