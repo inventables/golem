@@ -22,6 +22,15 @@ g.when(g.literal('2["message","What\'s up?"]'), function(out, msg) {
   out(util.format('2["message","%s"]', escape(JSON.stringify(replyMessage))));
 });
 
+g.when(g.pattern(/^2\["message","I'm ([\w\s]+)"\]$/), function(out, msg, match) {
+  var replyMessage = {"type": "message", "data": {"time": 1472834316527,
+                                                  "author": "system",
+                                                  "text": "No, I&apos;M " + match}};
+
+  out(util.format('2["message","%s"]', escape(JSON.stringify(replyMessage))));
+
+});
+
 g.expect(g.literal('2["message","Hi there"]'), function(out, msg) {
   var res = {"type": "message",
              "data": {"time": 1472834318896,
