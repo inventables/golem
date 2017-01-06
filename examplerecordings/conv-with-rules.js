@@ -4,11 +4,11 @@ escape = require('js-string-escape');
 util = require('util');
 
 g.output("0");
-g.expect(g.literal("2[\"message\",\"Bob\"]"), function(out, msg) {
+g.expect(g.pattern(/^2\[\"message\",\"(\w+)\"\]$/), function(out, msg, match) {
   var colorMessage = {"type":"color", "data": "magenta"};
   var helloMessage = {"type": "message", "data": {"time": 1472834316527,
                                                   "author": "system",
-                                              "text": "Hello, Bob"}};
+                                              "text": "Hello, " + match}};
 
   out(util.format('2["message","%s"]', escape(JSON.stringify(colorMessage))));
   out(util.format('2["message","%s"]', escape(JSON.stringify(helloMessage))));
