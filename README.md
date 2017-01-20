@@ -15,3 +15,7 @@ Internally, the recording is transformed into a list of events of certain types.
 Example of running:
 
 node golem.js --recordingName=examplerecordings/conv-with-rules.js --isReplay=true --sourcePort=2338
+
+To be a fake Carvey:
+
+node golem.js --recordingName=carveyRecording.js --isReplay=true --sourcePort=1339
