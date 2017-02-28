@@ -14,4 +14,6 @@ Internally, the recording is transformed into a list of events of certain types.
 
 Example of running:
 
-node golem.js --recordingName=examplerecordings/conv-with-rules.js --isReplay=true --sourcePort=2338
+node golem.js --recordingName=examples/chatbot/conv-with-rules.js --isReplay=true --sourcePort=2338
+
+And then you can open examples/chatbot/frontend.html
