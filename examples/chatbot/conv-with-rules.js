@@ -28,13 +28,6 @@ g.expect(g.pattern(sio.inPattern(/(\w+)/)), function(out, msg, match) {
   out(sio.outMessage(helloMessage));
 });
 
-g.when(g.literal(sio.inMessage("What\'s up?")), function(out, msg) {
-  var replyMessage = {"type": "message", "data": {"time": 1472834316527,
-                                                  "author": "system",
-                                                  "text": "Not too much"}};
-  out(sio.outMessage(replyMessage));
-});
-
 g.expect(g.literal(sio.inMessage("Hi there")), function(out, msg) {
   var res = {"type": "message",
              "data": {"time": 1472834318896,
@@ -45,11 +38,10 @@ g.expect(g.literal(sio.inMessage("Hi there")), function(out, msg) {
   out(sio.outMessage(res));
 });
 
-g.when(g.pattern(sio.inPattern(/I'm ([\w\s]+)/)), function(out, msg, match) {
+g.when(g.literal(sio.inMessage("What\'s up?")), function(out, msg) {
   var replyMessage = {"type": "message", "data": {"time": 1472834316527,
                                                   "author": "system",
-                                                  "text": "No, I&apos;M " + match}};
-
+                                                  "text": "Not too much"}};
   out(sio.outMessage(replyMessage));
 });
 
@@ -60,4 +52,12 @@ g.expect(g.literal(sio.inMessage("/time")), function(out, msg) {
                       "author": "system",
                       "color": "black"}};
   out(sio.outMessage(res));
+});
+
+g.when(g.pattern(sio.inPattern(/I'm ([\w\s]+)/)), function(out, msg, match) {
+  var replyMessage = {"type": "message", "data": {"time": 1472834316527,
+                                                  "author": "system",
+                                                  "text": "No, I&apos;M " + match}};
+
+  out(sio.outMessage(replyMessage));
 });
