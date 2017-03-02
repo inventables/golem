@@ -1,4 +1,4 @@
-g = org.inventables.golem;
+g = com.inventables.golem;
 
 escape = require('js-string-escape');
 util = require('util');
